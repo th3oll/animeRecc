@@ -32,9 +32,9 @@ def recommend(profileName):
     profileSoup = soup(pageHtml, "html.parser")
 
     # Pega as caixas com informacoes
-    favAnimeList = profileSoup.findAll("ul", {"class": "favorites-list anime"})
+    favAnimeList = profileSoup.findAll("ul", {"class": "fav-slide"}) # Mudou pra fav-slide
     try:
-        favAnimes = favAnimeList[0].findAll("div", {"class": "di-tc"})
+        favAnimes = favAnimeList[0].findAll("li", {"class": "btn-fav"}) # Mudou pra btn-fav
     except IndexError:
         Label(root,text="You don't have any animes marked as favorite on myanimelist.com").pack()
         Label(root,text="Please add some and try again!").pack()
