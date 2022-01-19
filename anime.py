@@ -32,17 +32,18 @@ def recommend(profileName):
     profileSoup = soup(pageHtml, "html.parser")
 
     # Pega as caixas com informacoes
-    favAnimeList = profileSoup.findAll("ul", {"class": "fav-slide"}) # Mudou pra fav-slide
+    favAnimeList = profileSoup.findAll("ul", {"class": "fav-slide"}) # Mudou pra fav-slide, funciona
     try:
-        favAnimes = favAnimeList[0].findAll("li", {"class": "btn-fav"}) # Mudou pra btn-fav
+        favAnimes = favAnimeList[0].findAll("li", {"class": "btn-fav"}) # Mudou pra btn-fav, verificar se funciona 100%
     except IndexError:
         Label(root,text="You don't have any animes marked as favorite on myanimelist.com").pack()
         Label(root,text="Please add some and try again!").pack()
         return 0
     animeDict = dict()
+#    print(favAnimes)
 
-    for animeIndex in range(0, len(favAnimes) - 1, 2):
-#        print(f'\nIf you liked {favAnimes[animeIndex + 1].a.text} you might like...\n')
+    for animeIndex in range(0, len(favAnimes)): # Nao sei pq o for ia em passos de 2
+ #       print(f'\nIf you liked {favAnimes[animeIndex + 1].a.text} you might like...\n')
         link = favAnimes[animeIndex].a["href"]
         try:
             newClient = uReq(link)
@@ -72,12 +73,13 @@ def recommend(profileName):
                     io.BytesIO(
                         requests.get(
                             bigImg).content))), recommendation.span.text, recommendation["href"], usersReco[0].text,
-                favAnimes[animeIndex + 1].a.text]
+                favAnimes[animeIndex].a.text]
             if toAdd not in animeDict.values():
                 animeDict[len(animeDict)] = toAdd
-
-                #          print(recommendation.span.text)
-#        print('-------------')
+#            print(favAnimes[animeIndex].a.text)
+#        print(favAnimes)
+#                print(recommendation.span.text)
+#       print('-------------')
 
 
     # Start of the GUI
@@ -94,7 +96,8 @@ def recommend(profileName):
         animeName.grid_forget()
         reco.grid_forget()
         my_label = Label(image=animeDict[image_number - 1][0])
-        related = Label(root, text=f"If you liked {animeDict[image_number - 1][-1]}, you might like...", bg="#2e51a2", fg="white", height=3, width=40)
+        related = Label(root, text=f"If you liked {(animeDict[image_number - 1][-1]).strip()}, you might like...", bg="#2e51a2", fg="white", height=3, width=40)
+#        print(animeDict[image_number - 1])
         animeName = Label(root, text='\n' + animeDict[image_number - 1][1], font=("Helvetica", 18))
         reco = Label(root, text="Recommended by " + animeDict[image_number-1][3].lower(), font=("Helvetica", 10))
         button_back = Button(root, text="<<", command=lambda: action(image_number - 1))
