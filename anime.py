@@ -41,7 +41,7 @@ def recommend(profileName):
         return 0
     animeDict = dict()
 
-    for animeIndex in range(0, len(favAnimes) - 1, 2):
+    for animeIndex in range(0, len(favAnimes) - 1):
 #        print(f'\nIf you liked {favAnimes[animeIndex + 1].a.text} you might like...\n')
         link = favAnimes[animeIndex].a["href"]
         try:
@@ -72,7 +72,7 @@ def recommend(profileName):
                     io.BytesIO(
                         requests.get(
                             bigImg).content))), recommendation.span.text, recommendation["href"], usersReco[0].text,
-                favAnimes[animeIndex + 1].a.text]
+                favAnimes[animeIndex].a.text]
             if toAdd not in animeDict.values():
                 animeDict[len(animeDict)] = toAdd
 
@@ -94,7 +94,7 @@ def recommend(profileName):
         animeName.grid_forget()
         reco.grid_forget()
         my_label = Label(image=animeDict[image_number - 1][0])
-        related = Label(root, text=f"If you liked {animeDict[image_number - 1][-1]}, you might like...", bg="#2e51a2", fg="white", height=3, width=40)
+        related = Label(root, text=f"If you liked {animeDict[image_number - 1][-1].strip()}, you might like...", bg="#2e51a2", fg="white", height=5, width=40)
         animeName = Label(root, text='\n' + animeDict[image_number - 1][1], font=("Helvetica", 18))
         reco = Label(root, text="Recommended by " + animeDict[image_number-1][3].lower(), font=("Helvetica", 10))
         button_back = Button(root, text="<<", command=lambda: action(image_number - 1))
@@ -121,7 +121,7 @@ def recommend(profileName):
         button_player.grid(row=9, column=1)
 
     my_label = Label(image=animeDict[0][0])
-    related = Label(root, text=f"If you liked {animeDict[0][-1]}, you might like...", bg="#2e51a2", fg="white", height=3, width=40)
+    related = Label(root, text=f"If you liked {animeDict[0][-1].strip()}, you might like...", bg="#2e51a2", fg="white", height=5, width=40)
     animeName = Label(root, text='\n' + animeDict[0][1], font=("Helvetica", 18))
     reco = Label(root, text="Recommended by "+animeDict[0][3].lower(), font=("Helvetica", 10))
     button_forward = Button(root, text=">>", command=lambda: action(2), bg="#2e51a2", fg="white")
